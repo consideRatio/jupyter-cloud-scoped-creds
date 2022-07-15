@@ -1,0 +1,7 @@
+{
+  "ServerApp": {
+    "jpserver_extensions": {
+      "jupyter_cloud_scoped_creds": true
+    }
+  }
+}
