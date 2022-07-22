@@ -1,22 +1,24 @@
 from jupyter_server.utils import url_path_join
 from jupyter_server.base.handlers import APIHandler
+#from jupyter_server.auth import authorized
 from tornado import web
 import asyncio
 
 class CredentialHandler(APIHandler):
 
     @web.authenticated
+    #@authorized
     async def get(self):
         """
         Calculate and return current resource usage metrics
         """
-        #cmd = ['pwd']
-        cmd = ['aws', 'sts', 'assume-role-with-web-identity',
-               '--role-arn $AWS_ROLE_ARN',
-               '--role-session-name $JUPYTERHUB_CLIENT_ID',
-               '--web-identity-token file://$AWS_WEB_IDENTITY_TOKEN_FILE',
-               '--duration-seconds 1000'
-               ]
+        cmd = ['pwd']
+        # cmd = ['aws', 'sts', 'assume-role-with-web-identity',
+        #        '--role-arn $AWS_ROLE_ARN',
+        #        '--role-session-name $JUPYTERHUB_CLIENT_ID',
+        #        '--web-identity-token file://$AWS_WEB_IDENTITY_TOKEN_FILE',
+        #        '--duration-seconds 1000'
+        #        ]
 
         proc = await asyncio.create_subprocess_exec(
             *cmd,

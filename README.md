@@ -32,6 +32,10 @@ Developed quickly with Yuvi Panda at SciPy 2022!
 
 Goal was to be as simple as possible, so no configuration options currently and it only works with AWS! But should be easy to extend to other Cloud providers
 
-### Issues
-Hmmm...
-* [W 2022-07-14 17:48:13.154 ServerApp] Content security violation: {"csp-report":{"document-uri":"http://127.0.0.1:8889/api/cloudcreds/aws","referrer":"","violated-directive":"style-src-attr","effective-directive":"style-src-attr","original-policy":"frame-ancestors 'self'; report-uri /api/security/csp-report; default-src 'none'","blocked-uri":"inline","status-code":200}}
+
+## Local Testing
+```
+pip install -e .
+jupyter server
+# go to http://localhost:8888/api/cloudcreds/aws
+```
