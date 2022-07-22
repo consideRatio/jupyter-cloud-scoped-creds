@@ -16,10 +16,10 @@ class CredentialHandler(APIHandler):
         # cmd = ['aws', 'sts', 'get-caller-identity']
         # cmd = ['printenv']
         cmd = ['aws', 'sts', 'assume-role-with-web-identity',
-               '--role-arn $AWS_ROLE_ARN',
-               '--role-session-name $JUPYTERHUB_CLIENT_ID',
-               '--web-identity-token file://$AWS_WEB_IDENTITY_TOKEN_FILE',
-               '--duration-seconds 1000'
+               '--role-arn', '$AWS_ROLE_ARN',
+               '--role-session-name', '$JUPYTERHUB_CLIENT_ID',
+               '--web-identity-token', 'file://$AWS_WEB_IDENTITY_TOKEN_FILE',
+               '--duration-seconds', '1000'
                ]
 
         proc = await asyncio.create_subprocess_exec(
