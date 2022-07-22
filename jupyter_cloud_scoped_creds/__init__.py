@@ -13,7 +13,8 @@ class CredentialHandler(APIHandler):
         Calculate and return current resource usage metrics
         """
         # cmd = ['pwd']
-        cmd = ['aws', 'sts', 'get-caller-identity']
+        # cmd = ['aws', 'sts', 'get-caller-identity']
+        cmd = ['printenv']
         # cmd = ['aws', 'sts', 'assume-role-with-web-identity',
         #        '--role-arn $AWS_ROLE_ARN',
         #        '--role-session-name $JUPYTERHUB_CLIENT_ID',
