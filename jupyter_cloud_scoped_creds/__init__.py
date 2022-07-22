@@ -30,6 +30,7 @@ class CredentialHandler(APIHandler):
         stdout, stderr = await proc.communicate()
 
         self.write(stdout)
+        self.write(stderr)
 
 
 def load_jupyter_server_extension(server_app):
