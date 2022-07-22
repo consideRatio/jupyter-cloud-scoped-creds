@@ -1,24 +1,22 @@
 from jupyter_server.utils import url_path_join
 from jupyter_server.base.handlers import APIHandler
-#from jupyter_server.auth import authorized
 from tornado import web
 import asyncio
+import os
 
 class CredentialHandler(APIHandler):
 
     @web.authenticated
-    #@authorized
     async def get(self):
         """
         Calculate and return current resource usage metrics
         """
-        # cmd = ['pwd']
-        # cmd = ['aws', 'sts', 'get-caller-identity']
-        # cmd = ['printenv']
+        # cmd = ['pwd'] # For testing/debugging
+
         cmd = ['aws', 'sts', 'assume-role-with-web-identity',
-               '--role-arn', '$AWS_ROLE_ARN',
-               '--role-session-name', '$JUPYTERHUB_CLIENT_ID',
-               '--web-identity-token', 'file://$AWS_WEB_IDENTITY_TOKEN_FILE',
+               '--role-arn', os.environ['AWS_ROLE_ARN'],
+               '--role-session-name', os.environ['JUPYTERHUB_CLIENT_ID'],
+               '--web-identity-token', f'file://{os.environ["AWS_WEB_IDENTITY_TOKEN_FILE"]}',
                '--duration-seconds', '1000'
                ]
 
@@ -30,7 +28,7 @@ class CredentialHandler(APIHandler):
         stdout, stderr = await proc.communicate()
 
         self.write(stdout)
-        self.write(stderr)
+        self.write(stderr) # For testing/debugging
 
 
 def load_jupyter_server_extension(server_app):
