@@ -12,7 +12,7 @@ from tornado import web
 
 from .version import __version__  # noqa
 
-class CredentialHandler(APIHandler):
+class AWSCredentialsHandler(APIHandler):
     @web.authenticated
     async def get(self):
         """
@@ -50,7 +50,7 @@ def _load_jupyter_server_extension(server_app):
     """
     base_url = server_app.web_app.settings["base_url"]
     server_app.web_app.add_handlers(
-        ".*", [(url_path_join(base_url, "/api/cloudcreds/aws"), CredentialHandler)]
+        ".*", [(url_path_join(base_url, "/api/cloudcreds/aws"), AWSCredentialsHandler)]
     )
 
 
