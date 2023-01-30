@@ -59,7 +59,7 @@ def _jupyter_server_extension_points():
     Returns a list of dictionaries with metadata describing
     where to find the `_load_jupyter_server_extension` function.
     """
-    return [{"module": "jupyter_cloud_scoped_creds"}]
+    return [{"module": "jupyter_cloud_creds"}]
 
 
 # For compatibility with notebook server, see

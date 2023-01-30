@@ -58,7 +58,7 @@ Goal was to be as simple as possible, so no configuration options currently and 
 Install this in the Docker Image defining the JupyterHub environment for users
 
 ```
-pip install git+https://github.com/scottyhq/jupyter-cloud-scoped-creds.git
+pip install git+https://github.com/jupyterhub/jupyter-scoped-creds.git
 ```
 
 ## Local Development
