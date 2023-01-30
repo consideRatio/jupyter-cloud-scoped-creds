@@ -1,3 +1,8 @@
+"""
+A jupyter_server/notebook extension that helps provide temporary cloud provider
+credentials by setting up an additional jupyter server endpoint for
+authenticated users.
+"""
 from jupyter_server.utils import url_path_join
 from jupyter_server.base.handlers import APIHandler
 from tornado import web
@@ -9,10 +14,14 @@ class CredentialHandler(APIHandler):
     @web.authenticated
     async def get(self):
         """
-        Calculate and return current resource usage metrics
-        """
-        # cmd = ['pwd'] # For testing/debugging
+        Acquire and return temporary AWS role credentials by exchanging a k8s
+        issued token.
 
+        To understand how this works, see:
+        - A blog post introducing this: https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/
+        - aws CLI, command instructions: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc
+        - aws CLI, command reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/assume-role-with-web-identity.html
+        """
         cmd = ['aws', 'sts', 'assume-role-with-web-identity',
                '--role-arn', os.environ['AWS_ROLE_ARN'],
                '--role-session-name', os.environ['JUPYTERHUB_CLIENT_ID'],
@@ -33,15 +42,17 @@ class CredentialHandler(APIHandler):
 
 def load_jupyter_server_extension(server_app):
     """
-    Called during notebook start
+    This function is called when the extension is loaded.
     """
     base_url = server_app.web_app.settings["base_url"]
     server_app.web_app.add_handlers(
         ".*", [(url_path_join(base_url, "/api/cloudcreds/aws"), CredentialHandler)]
     )
 
+
 def _jupyter_server_extension_points():
     """
-    Set up the server extension for collecting metrics
+    Returns a list of dictionaries with metadata describing
+    where to find the `_load_jupyter_server_extension` function.
     """
     return [{"module": "jupyter_cloud_scoped_creds"}]
