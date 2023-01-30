@@ -12,7 +12,6 @@ build-backend = "hatchling.build"
 #
 [project]
 name = "jupyter-cloud-creds"
-version = "0.0.1"
 description = "Server extension to get temporary cloud credentials from jupterhub"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -31,6 +30,7 @@ dependencies = [
     "jupyter_server>=1.10.1",
     "tornado",
 ]
+dynamic = ["version"]
 
 [project.optional-dependencies]
 test = [
@@ -46,6 +46,9 @@ Issues = "https://github.com/jupyterhub/jupyter-cloud-creds/issues"
 
 # hatch ref: https://hatch.pypa.io/latest/
 #
+[tool.hatch.version]
+path = "jupyter-cloud-creds/_version.py"
+
 [tool.hatch.build.targets.wheel.shared-data]
 "jupyter-config" = "etc/jupyter"
 
