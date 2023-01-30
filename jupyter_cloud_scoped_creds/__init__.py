@@ -40,7 +40,7 @@ class CredentialHandler(APIHandler):
         self.write(stderr) # For testing/debugging
 
 
-def load_jupyter_server_extension(server_app):
+def _load_jupyter_server_extension(server_app):
     """
     This function is called when the extension is loaded.
     """
@@ -56,3 +56,8 @@ def _jupyter_server_extension_points():
     where to find the `_load_jupyter_server_extension` function.
     """
     return [{"module": "jupyter_cloud_scoped_creds"}]
+
+
+# For compatibility with notebook server, see
+# https://jupyter-server.readthedocs.io/en/latest/developers/extensions.html#migrating-an-extension-to-use-jupyter-server
+load_jupyter_server_extension = _load_jupyter_server_extension
