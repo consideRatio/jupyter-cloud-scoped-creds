@@ -50,7 +50,7 @@ def _load_jupyter_server_extension(server_app):
     """
     base_url = server_app.web_app.settings["base_url"]
     server_app.web_app.add_handlers(
-        ".*", [(url_path_join(base_url, "/api/cloudcreds/aws"), AWSCredentialsHandler)]
+        ".*", [(url_path_join(base_url, "/api/jupyter-cloud-creds/aws"), AWSCredentialsHandler)]
     )
 
 

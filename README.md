@@ -5,7 +5,7 @@ When users log into JupyterHub on Kubernetes they can be given cloud provider cr
 The goal of this server extension is to expose an API endpoint via a [Jupyter Server Extension](https://jupyter-server.readthedocs.io) that makes it easy for JupyterHub users to get temporary credentials:
 
 ```
-https://HUBURL/user/YOURNAME/api/cloudcreds/aws
+https://HUBURL/user/YOURNAME/api/jupyter-cloud-creds/aws
 ```
 
 Returns something that looks like:
@@ -35,7 +35,7 @@ Right now this only works for JupyterHubs on AWS K8s that assign a service role 
 If you want to get credentials from another machine you can first go to https://HUBURL/user/YOURNAME/hub/token to get a token, then run:
 
 ```
-curl https://HUBURL/api/cloudcreds/aws?token=0f5bf5fa97fe4ba0bb623226f0b33206
+curl https://HUBURL/api/jupyter-cloud-creds/aws?token=0f5bf5fa97fe4ba0bb623226f0b33206
 ```
 
 If you output the JSON returned to a file like `/tmp/irp-cred.txt` you can run the following commands in a terminal to set your credentials (requires `jq`):
@@ -66,5 +66,5 @@ pip install git+https://github.com/jupyterhub/jupyter-scoped-creds.git
 ```
 pip install -e .
 jupyter server
-# go to http://localhost:8888/api/cloudcreds/aws
+# go to http://localhost:8888/api/jupyter-cloud-creds/aws
 ```
