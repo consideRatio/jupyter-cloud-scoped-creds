@@ -1,4 +1,4 @@
-# jupyter-cloud-scoped-creds
+# jupyter-cloud-creds
 
 When users log into JupyterHub on Kubernetes they can be given cloud provider credentials via a service account role. These permissions give access to resources like S3 buckets. Rather than making a bucket public, you can give authenticated users temporary to upload data files to object stores from any computer!
 
@@ -30,8 +30,7 @@ Returns something that looks like:
 
 ## How does it work?
 
-Right now this only works for HUBs on AWS K8s that assign a service role for a user. The API endpoint just runs `aws sts assume-role-with-web-identity`
-https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role-with-web-identity.html
+Right now this only works for JupyterHubs on AWS K8s that assign a service role for a user. The API endpoint just runs [`aws sts assume-role-with-web-identity`](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/index.html).
 
 If you want to get credentials from another machine you can first go to https://HUBURL/user/YOURNAME/hub/token to get a token, then run:
 
