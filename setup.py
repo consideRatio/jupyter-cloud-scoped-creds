@@ -14,8 +14,8 @@ setup(
     platforms='any',
     install_requires=['jupyter_server>=1.10.1', 'tornado'],
     data_files=[
-        ('etc/jupyter/jupyter_server_config.d', ['./jupyter_server_config.d/jupyter_cloud_scoped_creds.json']),
-        ('etc/jupyter/jupyter_notebook_config.d', ['./jupyter_notebook_config.d/jupyter_cloud_scoped_creds.json'])
+        ('etc/jupyter/jupyter_server_config.d', ['jupyter-config/jupyter_server_config.d/jupyter_cloud_scoped_creds.json']),
+        ('etc/jupyter/jupyter_notebook_config.d', ['jupyter-config/jupyter_notebook_config.d/jupyter_cloud_scoped_creds.json'])
     ],
     zip_safe=False,
     classifiers=[
