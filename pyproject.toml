@@ -1,3 +1,55 @@
+# build-system
+# - ref: https://peps.python.org/pep-0517/
+#
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+# project
+# - ref 1: https://peps.python.org/pep-0621/
+# - ref 2: https://hatch.pypa.io/latest/config/metadata/#project-metadata
+#
+[project]
+name = "jupyter-cloud-creds"
+version = "0.0.1"
+description = "Server extension to get temporary cloud credentials from jupterhub"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["jupyterhub"]
+authors = [
+    {name = "Scott Henderson"},
+    {name = "Yuvi Panda"},
+    {name = "Jupyter Contributors", email = "jupyter@googlegroups.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "jupyter_server>=1.10.1",
+    "tornado",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-jupyter[server]",
+]
+
+[project.urls]
+Documentation = "https://jupyter-cloud-creds.readthedocs.io"
+Source = "https://github.com/jupyterhub/jupyter-cloud-creds"
+Issues = "https://github.com/jupyterhub/jupyter-cloud-creds/issues"
+
+
+# hatch ref: https://hatch.pypa.io/latest/
+#
+[tool.hatch.build.targets.wheel.shared-data]
+"jupyter-config" = "etc/jupyter"
+
+
 # autoflake is used for autoformatting Python code
 #
 # ref: https://github.com/PyCQA/autoflake#readme
@@ -30,3 +82,12 @@ target_version = [
     "py310",
     "py311",
 ]
+
+
+# pytest is used for running Python based tests
+#
+# ref: https://docs.pytest.org/en/stable/
+#
+[tool.pytest.ini_options]
+addopts = "--verbose --color=yes --durations=10"
+asyncio_mode = "auto"
