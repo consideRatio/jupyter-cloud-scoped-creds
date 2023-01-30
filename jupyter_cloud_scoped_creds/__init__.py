@@ -27,14 +27,10 @@ class CredentialHandler(APIHandler):
             "aws",
             "sts",
             "assume-role-with-web-identity",
-            "--role-arn",
-            os.environ["AWS_ROLE_ARN"],
-            "--role-session-name",
-            os.environ["JUPYTERHUB_CLIENT_ID"],
-            "--web-identity-token",
-            f'file://{os.environ["AWS_WEB_IDENTITY_TOKEN_FILE"]}',
-            "--duration-seconds",
-            "1000",
+            f"--role-arn={os.environ['AWS_ROLE_ARN']}",
+            f"--role-session-name={os.environ['JUPYTERHUB_CLIENT_ID']}",
+            f"--web-identity-token=file://{os.environ['AWS_WEB_IDENTITY_TOKEN_FILE']}",
+            "--duration-seconds=1000",
         ]
 
         proc = await asyncio.create_subprocess_exec(
