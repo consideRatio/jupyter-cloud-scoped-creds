@@ -47,7 +47,7 @@ Issues = "https://github.com/jupyterhub/jupyter-cloud-creds/issues"
 # hatch ref: https://hatch.pypa.io/latest/
 #
 [tool.hatch.version]
-path = "jupyter-cloud-creds/_version.py"
+path = "jupyter_cloud_creds/_version.py"
 
 [tool.hatch.build.targets.wheel.shared-data]
 "jupyter-config" = "etc/jupyter"
