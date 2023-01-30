@@ -1,0 +1,6 @@
+[flake8]
+# Ignore style and complexity
+# E: style errors
+# W: style warnings
+# C: complexity
+ignore = E, C, W
