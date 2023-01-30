@@ -3,14 +3,15 @@ A jupyter_server/notebook extension that helps provide temporary cloud provider
 credentials by setting up an additional jupyter server endpoint for
 authenticated users.
 """
-from jupyter_server.utils import url_path_join
-from jupyter_server.base.handlers import APIHandler
-from tornado import web
 import asyncio
 import os
 
-class CredentialHandler(APIHandler):
+from jupyter_server.base.handlers import APIHandler
+from jupyter_server.utils import url_path_join
+from tornado import web
 
+
+class CredentialHandler(APIHandler):
     @web.authenticated
     async def get(self):
         """
@@ -22,22 +23,28 @@ class CredentialHandler(APIHandler):
         - aws CLI, command instructions: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc
         - aws CLI, command reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/assume-role-with-web-identity.html
         """
-        cmd = ['aws', 'sts', 'assume-role-with-web-identity',
-               '--role-arn', os.environ['AWS_ROLE_ARN'],
-               '--role-session-name', os.environ['JUPYTERHUB_CLIENT_ID'],
-               '--web-identity-token', f'file://{os.environ["AWS_WEB_IDENTITY_TOKEN_FILE"]}',
-               '--duration-seconds', '1000'
-               ]
+        cmd = [
+            "aws",
+            "sts",
+            "assume-role-with-web-identity",
+            "--role-arn",
+            os.environ["AWS_ROLE_ARN"],
+            "--role-session-name",
+            os.environ["JUPYTERHUB_CLIENT_ID"],
+            "--web-identity-token",
+            f'file://{os.environ["AWS_WEB_IDENTITY_TOKEN_FILE"]}',
+            "--duration-seconds",
+            "1000",
+        ]
 
         proc = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE)
+            *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        )
 
         stdout, stderr = await proc.communicate()
 
         self.write(stdout)
-        self.write(stderr) # For testing/debugging
+        self.write(stderr)  # For testing/debugging
 
 
 def _load_jupyter_server_extension(server_app):

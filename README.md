@@ -9,6 +9,7 @@ https://HUBURL/user/YOURNAME/api/cloudcreds/aws
 ```
 
 Returns something that looks like:
+
 ```
 {
   "Credentials": {
@@ -32,7 +33,6 @@ Returns something that looks like:
 Right now this only works for HUBs on AWS K8s that assign a service role for a user. The API endpoint just runs `aws sts assume-role-with-web-identity`
 https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role-with-web-identity.html
 
-
 If you want to get credentials from another machine you can first go to https://HUBURL/user/YOURNAME/hub/token to get a token, then run:
 
 ```
@@ -40,6 +40,7 @@ curl https://HUBURL/api/cloudcreds/aws?token=0f5bf5fa97fe4ba0bb623226f0b33206
 ```
 
 If you output the JSON returned to a file like `/tmp/irp-cred.txt` you can run the following commands in a terminal to set your credentials (requires `jq`):
+
 ```
 export AWS_REGION="us-west-2"
 export AWS_ACCESS_KEY_ID="$(cat /tmp/irp-cred.txt | jq -r ".Credentials.AccessKeyId")"
@@ -48,17 +49,21 @@ export AWS_SESSION_TOKEN="$(cat /tmp/irp-cred.txt | jq -r ".Credentials.SessionT
 ```
 
 ## Roadmap
+
 Developed quickly with Yuvi Panda at SciPy 2022!
 
 Goal was to be as simple as possible, so no configuration options currently and it only works with AWS! But should be easy to extend to other Cloud providers
 
 ## Install
+
 Install this in the Docker Image defining the JupyterHub environment for users
+
 ```
 pip install git+https://github.com/scottyhq/jupyter-cloud-scoped-creds.git
 ```
 
 ## Local Development
+
 ```
 pip install -e .
 jupyter server
