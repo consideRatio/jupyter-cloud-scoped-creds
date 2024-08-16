@@ -8,8 +8,11 @@ class AWSCredentialsHandler(APIHandler):
     @web.authenticated
     async def get(self):
         """
-        Acquire and return temporary AWS role credentials by exchanging a k8s
-        issued token.
+        Acquire and return temporary AWS role credentials.
+
+        This is done by exchanging a continuously refreshing AWS token inside
+        the container that could expire at any time with a fresh token with a
+        pre-determined lifetime.
 
         To understand how this works, see:
         - A blog post introducing this: https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/
