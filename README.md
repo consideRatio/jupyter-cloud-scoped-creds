@@ -1,8 +1,14 @@
 # jupyter-cloud-creds
 
-When users log into JupyterHub on Kubernetes they can be given cloud provider credentials via a service account role. These permissions give access to resources like S3 buckets. Rather than making a bucket public, you can give authenticated users temporary to upload data files to object stores from any computer!
+When users log into JupyterHub on Kubernetes they can be given cloud provider
+credentials via a service account role. These permissions give access to
+resources like S3 buckets. Rather than making a bucket public, you can give
+authenticated users temporary to upload data files to object stores from any
+computer!
 
-The goal of this server extension is to expose an API endpoint via a [Jupyter Server Extension](https://jupyter-server.readthedocs.io) that makes it easy for JupyterHub users to get temporary credentials:
+The goal of this server extension is to expose an API endpoint via a [Jupyter
+Server Extension](https://jupyter-server.readthedocs.io) that makes it easy for
+JupyterHub users to get temporary credentials:
 
 ```
 https://HUBURL/user/YOURNAME/api/jupyter-cloud-creds/aws
@@ -30,15 +36,18 @@ Returns something that looks like:
 
 ## How does it work?
 
-Right now this only works for JupyterHubs on AWS K8s that assign a service role for a user. The API endpoint just runs [`aws sts assume-role-with-web-identity`](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/index.html).
+Right now this only works for JupyterHubs on AWS K8s that assign a service role
+for a user. The API endpoint just runs [`aws sts assume-role-with-web-identity`].
 
-If you want to get credentials from another machine you can first go to https://HUBURL/user/YOURNAME/hub/token to get a token, then run:
+If you want to get credentials from another machine you can first go to
+https://HUBURL/user/YOURNAME/hub/token to get a token, then run:
 
 ```
 curl https://HUBURL/api/jupyter-cloud-creds/aws?token=0f5bf5fa97fe4ba0bb623226f0b33206
 ```
 
-If you output the JSON returned to a file like `/tmp/irp-cred.txt` you can run the following commands in a terminal to set your credentials (requires `jq`):
+If you output the JSON returned to a file like `/tmp/irp-cred.txt` you can run
+the following commands in a terminal to set your credentials (requires `jq`):
 
 ```
 export AWS_REGION="us-west-2"
@@ -47,11 +56,14 @@ export AWS_SECRET_ACCESS_KEY="$(cat /tmp/irp-cred.txt | jq -r ".Credentials.Secr
 export AWS_SESSION_TOKEN="$(cat /tmp/irp-cred.txt | jq -r ".Credentials.SessionToken")"
 ```
 
+[`aws sts assume-role-with-web-identity`]: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/index.html
+
 ## Roadmap
 
 Developed quickly with Yuvi Panda at SciPy 2022!
 
-Goal was to be as simple as possible, so no configuration options currently and it only works with AWS! But should be easy to extend to other Cloud providers
+Goal was to be as simple as possible, so no configuration options currently and
+it only works with AWS! But should be easy to extend to other Cloud providers
 
 ## Install
 
