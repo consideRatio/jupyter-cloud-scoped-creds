@@ -2,16 +2,16 @@
 # - ref: https://peps.python.org/pep-0517/
 #
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
 
 
 # project
 # - ref 1: https://peps.python.org/pep-0621/
-# - ref 2: https://hatch.pypa.io/latest/config/metadata/#project-metadata
 #
 [project]
 name = "jupyter-cloud-creds"
+version = "0.0.1"
 description = "Server extension to get temporary cloud credentials from jupterhub"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -30,7 +30,6 @@ dependencies = [
     "jupyter_server>=1.10.1",
     "tornado",
 ]
-dynamic = ["version"]
 
 [project.optional-dependencies]
 test = [
@@ -46,9 +45,6 @@ Issues = "https://github.com/jupyterhub/jupyter-cloud-creds/issues"
 
 # hatch ref: https://hatch.pypa.io/latest/
 #
-[tool.hatch.version]
-path = "jupyter_cloud_creds/_version.py"
-
 [tool.hatch.build.targets.wheel.shared-data]
 "jupyter-config" = "etc/jupyter"
 
@@ -86,3 +82,35 @@ profile = "black"
 [tool.pytest.ini_options]
 addopts = "--verbose --color=yes --durations=10"
 asyncio_mode = "auto"
+testpaths = ["tests"]
+
+
+
+# tbump is used to simplify and standardize the release process when updating
+# the version, making a git commit and tag, and pushing changes.
+#
+# ref: https://github.com/your-tools/tbump#readme
+#
+[tool.tbump.version]
+current = "0.0.1"
+regex = '''
+    (?P<major>\d+)
+    \.
+    (?P<minor>\d+)
+    \.
+    (?P<patch>\d+)
+    (?P<pre>((a|b|rc)\d+)|)
+    \.?
+    (?P<dev>(?<=\.)dev\d*|)
+'''
+
+[tool.tbump.git]
+message_template = "Bump to {new_version}"
+tag_template = "{new_version}"
+
+[[tool.tbump.file]]
+src = "jupyter_cloud_creds/_version.py"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+search = 'version = "{current_version}"'
