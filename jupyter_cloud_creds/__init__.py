@@ -5,7 +5,7 @@ authenticated users.
 """
 from jupyter_server.utils import url_path_join
 
-from .version import __version__  # noqa
+from ._version import __version__  # noqa
 from .handlers import AWSCredentialsHandler
 
 

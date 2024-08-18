@@ -11,7 +11,7 @@ build-backend = "setuptools.build_meta"
 #
 [project]
 name = "jupyter-cloud-creds"
-version = "0.0.1"
+version = "0.1.0"
 description = "Server extension to get temporary cloud credentials from jupterhub"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -43,10 +43,13 @@ Source = "https://github.com/jupyterhub/jupyter-cloud-creds"
 Issues = "https://github.com/jupyterhub/jupyter-cloud-creds/issues"
 
 
-# hatch ref: https://hatch.pypa.io/latest/
+
+# setuptools ref: https://setuptools.pypa.io/en/latest/
 #
-[tool.hatch.build.targets.wheel.shared-data]
-"jupyter-config" = "etc/jupyter"
+[tool.setuptools.data-files]
+"etc/jupyter/jupyter_server_config.d" = ["jupyter-config/jupyter_server_config.d/jupyter_cloud_creds.json"]
+"etc/jupyter/jupyter_notebook_config.d" = ["jupyter-config/jupyter_notebook_config.d/jupyter_cloud_creds.json"]
+
 
 
 # autoflake is used for autoformatting Python code
@@ -92,7 +95,7 @@ testpaths = ["tests"]
 # ref: https://github.com/your-tools/tbump#readme
 #
 [tool.tbump.version]
-current = "0.0.1"
+current = "0.1.0"
 regex = '''
     (?P<major>\d+)
     \.
