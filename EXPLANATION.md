@@ -47,14 +47,15 @@ spec:
   # ...
 
   # Below are changes made by the mutating webhook
-  volumes:A Pod referencing a k8s ServiceAccount with a EKS specific annotation
-referencing an IAM Role gets setup with continuously refreshing AWS credentials
-thanks to changes to the Pod specification made by a mutating webhook. These
-credentials can be exported directly, but one can also acquire a token created
-just in time with a known lifetime of one hour by default, up to possibly twelve
-hours.
-              expirationSeconds: 86400
-              path: token
+  volumes:
+  - name: aws-iam-token
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          audience: sts.amazonaws.com
+          expirationSeconds: 86400
+          path: token
   containers:
     - # ...
       volumeMounts:

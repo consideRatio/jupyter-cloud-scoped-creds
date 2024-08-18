@@ -19,6 +19,12 @@ class AWSCredentialsHandler(APIHandler):
         - aws CLI, command instructions: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc
         - aws CLI, command reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/assume-role-with-web-identity.html
         """
+        for env in ["AWS_ROLE_ARN", "AWS_WEB_IDENTITY_TOKEN_FILE", "JUPYTERHUB_CLIENT_ID"]:
+            if not env in os.environ:
+                self.write(f"Required environment variable {env} not set in the jupyter server")
+                self.set_status(503)
+                return
+
         cmd = [
             "aws",
             "sts",
@@ -26,7 +32,7 @@ class AWSCredentialsHandler(APIHandler):
             f"--role-arn={os.environ['AWS_ROLE_ARN']}",
             f"--role-session-name={os.environ['JUPYTERHUB_CLIENT_ID']}",
             f"--web-identity-token=file://{os.environ['AWS_WEB_IDENTITY_TOKEN_FILE']}",
-            "--duration-seconds=1000",
+            "--duration-seconds=3600",
         ]
 
         proc = await asyncio.create_subprocess_exec(
